@@ -2,79 +2,69 @@
 
 #define MATRIX_SIZE 5
 
-void bubleSort(int arr[MATRIX_SIZE][MATRIX_SIZE]) // sorting an array by buble sort in descending order
+void bubleSortColumnsInDescendingOrder(int matrix[MATRIX_SIZE][MATRIX_SIZE])
 {
-	for (int i = 0; i < MATRIX_SIZE; i++)
+	for (int row = 0; row < MATRIX_SIZE; row++)
 	{
-		for (int j = 0; j < MATRIX_SIZE; j++)
+		for (int column = 0; column < MATRIX_SIZE; column++)
 		{
-			for (int h = j + 1; h < MATRIX_SIZE; h++)
+			for (int incrementColumn = column + 1; incrementColumn < MATRIX_SIZE; incrementColumn++)
 			{
-				if (arr[j][i] < arr[h][i])
+				if (matrix[column][row] < matrix[incrementColumn][row])
 				{
-					int tempt = arr[j][i];
-					arr[j][i] = arr[h][i];
-					arr[h][i] = tempt;
+					int temptVariable = matrix[column][row];
+					matrix[column][row] = matrix[incrementColumn][row];
+					matrix[incrementColumn][row] = temptVariable;
 				}
 			}
 		}
 	}
 }
 
-void find_min_elm(int arr[MATRIX_SIZE][MATRIX_SIZE], int sumArr[MATRIX_SIZE]) // findind min elements in each row of a 2d array
+void findMinElementInRow(int matrix[MATRIX_SIZE][MATRIX_SIZE], int matrixSumm[MATRIX_SIZE]) 
 {
-	for (int i = 0; i < MATRIX_SIZE; i++) 
+	for (int row = 0; row < MATRIX_SIZE; row++)
 	{
-		int min = arr[i][0];
-		for (int j = 0; j < MATRIX_SIZE; j++) 
+		int minElement = matrix[row][0];
+		for (int column = 0; column < MATRIX_SIZE; column++)
 		{
-			if (min > arr[j][i]) 
+			if (minElement > matrix[column][row])
 			{
-				min = arr[j][i];
+				minElement = matrix[column][row];
 			}
 		}
-		sumArr[i] = min;
+		matrixSumm[row] = minElement;
 	}
 }
 
-void print_min_elements_of_each_row(int sumArr[MATRIX_SIZE]) // printing all min elements in each row of a 2d array
+void printMinElementsOfEachRow(int matrixSumm[MATRIX_SIZE])
 {
-  for (int i = 0; i < MATRIX_SIZE; i++)
+  for (int matrixSummIndex = 0; matrixSummIndex < MATRIX_SIZE; matrixSummIndex++)
   {
-    printf("%d-th row min = %d\n", i + 1, sumArr[i]);
+    printf("%d-th row min = %d\n", matrixSummIndex + 1, matrixSumm[matrixSummIndex]);
   }
 }
 
-int sum_arr(int sumArr[MATRIX_SIZE]) // calculating the summ of all max elements in each row of a 2d array
+int averageValueOfMinElements(int matrixSumm[MATRIX_SIZE])
 {
-	int sum = 0;
-	for (int i = 0; i < MATRIX_SIZE; i++)
-	{
-		sum += sumArr[i];
-	}
-	return sum;
-}
+	int average = 0;
+	int minElementsSumm = 0;
 
-int avr_arr(int sumArr[MATRIX_SIZE]) // findind avg element in each row of a 2d array
-{
-	int avr = 0;
-	int sum = 0;
-
-	for (int i = 0; i < MATRIX_SIZE; i++)
+	for (int arrayIndex = 0; arrayIndex < MATRIX_SIZE; arrayIndex++)
 	{
-		sum += sumArr[i];
+		minElementsSumm += matrixSumm[arrayIndex];
 	}
 
-	 avr = sum / MATRIX_SIZE;
+	average = minElementsSumm / MATRIX_SIZE;
 }
 
-int printing(int arr[MATRIX_SIZE][MATRIX_SIZE]) // printing an array = matrix
+int printToConsoleMatrix(int matrix[MATRIX_SIZE][MATRIX_SIZE])
 {
-	for (int i = 0; i < MATRIX_SIZE; i++)
+	for (int row = 0; row < MATRIX_SIZE; row++)
 	{
-		for (int j = 0; j < MATRIX_SIZE; j++)
+		for (int column = 0; column < MATRIX_SIZE; column++)
 		{
-			printf("%5.0d", arr[i][j]);
+			printf("%5.0d", matrix[row][column]);
 		}
 		printf("\n");
 	}
@@ -83,31 +73,30 @@ int printing(int arr[MATRIX_SIZE][MATRIX_SIZE]) // printing an array = matrix
 	return 0;
 }
 
-int main() {
+int main() 
+{
+	int matrix[MATRIX_SIZE][MATRIX_SIZE];
 
-	int arr[MATRIX_SIZE][MATRIX_SIZE];
-
-	for(int i = 0; i< MATRIX_SIZE; i++)
+	for(int row = 0; row < MATRIX_SIZE; row++)
 	{
-		for (int j = 0; j < MATRIX_SIZE; j++)
+		for (int column = 0; column < MATRIX_SIZE; column++)
 		{
-			scanf_s("%d", &arr[i][j]);
+			scanf_s("%d", &matrix[row][column]);
 		}
 	}
-
 	
 	printf("Before sorting:\n");
-	printing(arr);
+	printToConsoleMatrix(matrix);
 
-	bubleSort(arr);
+	bubleSortColumnsInDescendingOrder(matrix);
 
 	printf("After sorting:\n");
-	printing(arr);
+	printToConsoleMatrix(matrix);
 
-	int sumArr[MATRIX_SIZE];
+	int matrixSumm[MATRIX_SIZE];
 
-	find_min_elm(arr, sumArr);
+	findMinElementInRow(matrix, matrixSumm);
 	
-	print_min_elements_of_each_row(sumArr);
-	printf("\nAverage value of min elements of each row: %d", avr_arr(sumArr));
+	printMinElementsOfEachRow(matrixSumm);
+	printf("\nAverage value of min elements of each row: %d", averageValueOfMinElements(matrixSumm));
 }
